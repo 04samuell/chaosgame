@@ -8,6 +8,7 @@ public class ChaosGameGUI {
     private JPanel panel;
     private JFrame frame;
     private JCheckBoxMenuItem randomPointsBox;
+    private JComboBox<Integer> numPointsBox;
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
@@ -44,9 +45,18 @@ public class ChaosGameGUI {
         JMenuItem clearButton = new JMenuItem("Clear");
         clearButton.addActionListener(new ClearButtonListener());
 
+        numPointsBox = new JComboBox<>();
+        numPointsBox.addItem(3);
+        numPointsBox.addItem(4);
+        numPointsBox.addItem(5);
+        JPanel numPointsPanel = new JPanel();
+        numPointsPanel.add(new JLabel("Points"));
+        numPointsPanel.add(numPointsBox);
+        
         menuBar.add(simulateButton);
         menuBar.add(randomPointsBox);
         menuBar.add(clearButton);
+        menuBar.add(numPointsPanel);
         frame.setJMenuBar(menuBar);
     }
 
@@ -57,7 +67,8 @@ public class ChaosGameGUI {
     private class SimulateListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             boolean randomSimulation = randomPointsBox.isSelected();
-            game.beginSimulation(3, randomSimulation);
+            int numPoints = (int) numPointsBox.getSelectedItem();
+            game.beginSimulation(numPoints, randomSimulation);
         }
     }
 
