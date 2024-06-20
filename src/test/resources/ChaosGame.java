@@ -10,9 +10,10 @@ public class ChaosGame {
     public Image offScreenImage;
     private Timer timer;
     private Point[] startPoints;
+    private Color[] startPointColors;
     private Point prevPoint;
     public Graphics g;
-    private static final int RADIUS = 5;
+    private static final int RADIUS = 3;
 
     public ChaosGame() {    
         gui = new ChaosGameGUI(this);
@@ -26,36 +27,50 @@ public class ChaosGame {
         g.setColor(Color.WHITE);
     }
 
-    public void beginSimulation(int numPoints) {
+    public void beginSimulation(int numPoints, boolean random) {
         startPoints = new Point[numPoints];
+        startPointColors = new Color[numPoints];
+        startPoints[0] = new Point(400, 50);
+        startPoints[1] = new Point(100, 600);
+        startPoints[2] = new Point(700, 600);
         for (int i = 0; i < numPoints; i++) {
-            startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT));
+            if(random) {
+                startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT)-50);
+            }
+            startPointColors[i] = simulateRandomColor();
+            g.setColor(startPointColors[i]);
             g.fillOval(startPoints[i].x, startPoints[i].y, RADIUS, RADIUS);
         }
-        prevPoint = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT));
+        prevPoint = new Point(startPoints[0].x, startPoints[0].y);
         timer.start();
+    }
+
+    public void endSimulation() {
+        timer.stop();
+        clearScreen();
+    }
+
+    public void clearScreen() {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, ChaosGameGUI.WIDTH, ChaosGameGUI.HEIGHT);
     }
 
     public void getNextAnimationFrame() {
         for(int i = 0 ; i < 100 ; i++) {
-            int index = getClosestToStartPoints();
-            prevPoint = getMidpoint(prevPoint, startPoints[index]);
-            drawPoint(prevPoint); 
+            simulateSinglePoint();
         }
     }
 
-    private int getClosestToStartPoints() {
-        int index = 0; // change to prevPoint
-        double minDistance = Double.MAX_VALUE;
-        for (int i = 0; i < startPoints.length; i++) {
-            double distance = getDistance(prevPoint, startPoints[i]);
-            if (distance < minDistance) {
-                minDistance = distance;
-                index = i;
-            }
-        }
-        return index;
+    private void simulateSinglePoint() {
+        int index = r.nextInt(startPoints.length);
+        prevPoint = getMidpoint(prevPoint, startPoints[index]);
+        drawPoint(prevPoint, startPointColors[index]);
     }
+
+    private Color simulateRandomColor() {
+        return new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+    }
+
 
     private double getDistance(Point p1, Point p2) {
         return Math.sqrt(Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2));
@@ -65,8 +80,9 @@ public class ChaosGame {
         return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);
     }
 
-    private void drawPoint(Point p) {
-        g.fillOval(p.y, p.x, RADIUS, RADIUS);
+    private void drawPoint(Point p, Color c) {
+        g.setColor(c);
+        g.fillOval(p.x, p.y, RADIUS, RADIUS);
     }
 
 
