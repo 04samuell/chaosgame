@@ -13,7 +13,7 @@ public class ChaosGame {
     private Color[] startPointColors;
     private Point prevPoint;
     public Graphics g;
-    private static final int RADIUS = 3;
+    private static final int RADIUS = 2;
 
     public ChaosGame() {    
         gui = new ChaosGameGUI(this);
@@ -40,7 +40,7 @@ public class ChaosGame {
     }
 
     public void getNextAnimationFrame() {
-        for(int i = 0 ; i < 1000 ; i++) {
+        for(int i = 0 ; i < 100 ; i++) {
             simulateSinglePoint();
         }
     }
@@ -109,10 +109,10 @@ public class ChaosGame {
     private void pentagonSimulation() {
         startPoints = new Point[5];
         startPoints[0] = new Point(400, 50);
-        startPoints[1] = new Point(100, 200);
+        startPoints[1] = new Point(100, 250);
         startPoints[2] = new Point(250, 600);
         startPoints[3] = new Point(550, 600);
-        startPoints[4] = new Point(700, 200);
+        startPoints[4] = new Point(700, 250);
     }
 
 
