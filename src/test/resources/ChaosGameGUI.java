@@ -28,7 +28,6 @@ public class ChaosGameGUI {
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(WIDTH,HEIGHT));;
         panel.setBackground(Color.BLACK);
-        game.offScreenImage = panel.createImage(WIDTH,HEIGHT);
         frame.getContentPane().add(panel);
         createMenuBar();
         frame.setVisible(true);

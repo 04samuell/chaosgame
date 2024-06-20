@@ -7,7 +7,6 @@ public class ChaosGame {
 
     private ChaosGameGUI gui;
     private static final Random r = new Random();
-    public Image offScreenImage;
     private Timer timer;
     private Point[] startPoints;
     private Color[] startPointColors;
