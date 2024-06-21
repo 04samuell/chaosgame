@@ -1,24 +1,16 @@
 import java.awt.*;
-import java.util.Random;
-
 
 public class SerpinskiTriangle extends Fractal {
 
-    private Point[] startPoints;
-    private Color[] startPointColors;
-    private boolean random;
-    private Point prevPoint;
-    private ChaosGame game;
-    private static final Random r = new Random();
-
     public SerpinskiTriangle(ChaosGame game, boolean random) {
-        this.game = game;
-        this.random = random;
+        super(game, random);
+        super.setStartPoints(new Point[3]);
+        super.setStartPointColors(new Color[3]);
     }
 
     @Override
-    public Point[] initialiseStartPoints(boolean random) {
-        startPoints = new Point[3];
+    public void initialiseStartPoints(boolean random) {
+        Point[] startPoints = new Point[3];
         if(!random) {
             startPoints[0] = new Point(400, 50);
             startPoints[1] = new Point(100, 600);
@@ -28,23 +20,29 @@ public class SerpinskiTriangle extends Fractal {
                 startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT)-50);
             }
         }
-        prevPoint = startPoints[0];
-        return startPoints; //the first prevPoint
+        super.setStartPoints(startPoints);
+        super.setPrevPoint(startPoints[0]);
     }
 
     public void initialiseStartPointColours() {
-        startPointColors = new Color[startPoints.length];
+        Color[] startPointColors = new Color[3];
         for(int i = 0 ; i < startPointColors.length ; i++) {
             startPointColors[i] = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
         }
+        super.setStartPointColors(startPointColors);
     }
         
 
     @Override
     public void simulateSinglePoint() {
-        int index = r.nextInt(startPoints.length);
-        prevPoint = getMidpoint(prevPoint, startPoints[index]);
-        game.drawPoint(prevPoint, startPointColors[index]);
+        int index = r.nextInt(super.getStartPoints().length);
+
+        Point prevPoint = super.getPrevPoint();
+        Point[] startPoints = super.getStartPoints();
+        Color[] startPointColors = super.getStartPointColors();
+
+        super.setPrevPoint(getMidpoint(prevPoint, startPoints[index])); // set the new prevPoint to be the midpoint
+        super.getGame().drawPoint(prevPoint, startPointColors[index]); //draw the point
         
     }
     

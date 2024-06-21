@@ -32,15 +32,10 @@ public class ChaosGame {
             //currSimulation = new SerpinskiSquare(random);
         } else if(numPoints == 5) {
             //currSimulation = new SerpinskiPentagon(random);
-        
         }
 
         currSimulation.initialiseStartPoints(random);
         currSimulation.initialiseStartPointColours();
-        for (int i = 0; i < numPoints; i++) {
-            g.setColor(currSimulation.getStartPointColors()[i]);
-            g.fillOval(currSimulation.getStartPoints()[i].x, currSimulation.getStartPoints()[i].y, RADIUS, RADIUS);
-        }
         timer.start();
     }
 

@@ -3,11 +3,21 @@ import java.util.Random;
 
 public abstract class Fractal {
 
-    private Point[] startPoints = new Point[1];
-    private Color[] startPointColors = new Color[1];
-    private static Random r = new Random();
+    private Point[] startPoints;
+    private Color[] startPointColors;
+    private Point prevPoint;
+
+    private boolean random;
+    private ChaosGame game;
+
+    public static final Random r = new Random();
+
+    public Fractal(ChaosGame game, boolean random) {
+        this.game = game;
+        this.random = random;
+    }
     
-    public abstract Point[] initialiseStartPoints(boolean random);
+    public abstract void initialiseStartPoints(boolean random);
 
     public abstract void simulateSinglePoint();
 
@@ -23,6 +33,30 @@ public abstract class Fractal {
 
     public Color[] getStartPointColors() {
         return startPointColors;
+    }
+
+    public void setStartPoints(Point[] startPoints) {
+        this.startPoints = startPoints;
+    }
+
+    public void setStartPointColors(Color[] startPointColors) {
+        this.startPointColors = startPointColors;
+    }
+
+    public Point getPrevPoint() {
+        return prevPoint;
+    }
+
+    public void setPrevPoint(Point prevPoint) {
+        this.prevPoint = prevPoint;
+    }
+
+    public ChaosGame getGame() {
+        return game;
+    }
+
+    public boolean getRandom() {
+        return random;
     }
 
 }
