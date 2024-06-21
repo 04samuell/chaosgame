@@ -1,17 +1,23 @@
 import java.awt.*;
+import java.util.Random;
 
-public class SerpinskiTriangle implements Fractal {
+
+public class SerpinskiTriangle extends Fractal {
 
     private Point[] startPoints;
     private Color[] startPointColors;
     private boolean random;
+    private Point prevPoint;
+    private ChaosGame game;
+    private static final Random r = new Random();
 
-    public SerpinskiTriangle(boolean random) {
+    public SerpinskiTriangle(ChaosGame game, boolean random) {
+        this.game = game;
         this.random = random;
     }
 
     @Override
-    public void initialiseStartPoints(boolean random) {
+    public Point[] initialiseStartPoints(boolean random) {
         startPoints = new Point[3];
         if(!random) {
             startPoints[0] = new Point(400, 50);
@@ -22,25 +28,24 @@ public class SerpinskiTriangle implements Fractal {
                 startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT)-50);
             }
         }
-
-        //return start point for prevPoint in ChaosGame?
-        
+        prevPoint = startPoints[0];
+        return startPoints; //the first prevPoint
     }
+
+    public void initialiseStartPointColours() {
+        startPointColors = new Color[startPoints.length];
+        for(int i = 0 ; i < startPointColors.length ; i++) {
+            startPointColors[i] = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        }
+    }
+        
 
     @Override
     public void simulateSinglePoint() {
-        // TODO Auto-generated method stub
+        int index = r.nextInt(startPoints.length);
+        prevPoint = getMidpoint(prevPoint, startPoints[index]);
+        game.drawPoint(prevPoint, startPointColors[index]);
         
     }
-
-    public Point[] getStartPoints() {
-        return startPoints;
-    }
-
-    public Color[] getStartPointColors() {
-        return startPointColors;
-    }
-
-    
     
 }
