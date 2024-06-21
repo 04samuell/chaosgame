@@ -17,11 +17,17 @@ public abstract class Fractal {
         this.random = random;
     }
     
-    public abstract void initialiseStartPoints(boolean random);
+    public abstract void initialiseStartPoints();
 
     public abstract void simulateSinglePoint();
 
-    public abstract void initialiseStartPointColours();
+    public void initialiseStartPointColours() {
+        Color[] startPointColors = new Color[startPoints.length];
+        for(int i = 0 ; i < startPointColors.length ; i++) {
+            startPointColors[i] = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        }
+        this.startPointColors = startPointColors;
+    }
 
     public Point getMidpoint(Point p1, Point p2) {
         return new Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2);

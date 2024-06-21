@@ -9,9 +9,9 @@ public class SerpinskiTriangle extends Fractal {
     }
 
     @Override
-    public void initialiseStartPoints(boolean random) {
+    public void initialiseStartPoints() {
         Point[] startPoints = new Point[3];
-        if(!random) {
+        if(!super.getRandom()) {
             startPoints[0] = new Point(400, 50);
             startPoints[1] = new Point(100, 600);
             startPoints[2] = new Point(700, 600);
@@ -22,14 +22,6 @@ public class SerpinskiTriangle extends Fractal {
         }
         super.setStartPoints(startPoints);
         super.setPrevPoint(startPoints[0]);
-    }
-
-    public void initialiseStartPointColours() {
-        Color[] startPointColors = new Color[3];
-        for(int i = 0 ; i < startPointColors.length ; i++) {
-            startPointColors[i] = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
-        }
-        super.setStartPointColors(startPointColors);
     }
         
 

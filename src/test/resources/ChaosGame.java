@@ -1,12 +1,10 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.Timer;
-import java.util.Random;
 
 public class ChaosGame {
 
     private ChaosGameGUI gui;
-    private static final Random r = new Random();
     private Timer timer;
     public Graphics g;
     private static final int RADIUS = 2;
@@ -29,12 +27,12 @@ public class ChaosGame {
         if(numPoints == 3) {
             currSimulation = new SerpinskiTriangle(this, random);
         } else if(numPoints == 4) {
-            //currSimulation = new SerpinskiSquare(random);
+            currSimulation = new SerpinskiCarpet(this, random);
         } else if(numPoints == 5) {
             //currSimulation = new SerpinskiPentagon(random);
         }
 
-        currSimulation.initialiseStartPoints(random);
+        currSimulation.initialiseStartPoints(); //random
         currSimulation.initialiseStartPointColours();
         timer.start();
     }
@@ -61,14 +59,6 @@ public class ChaosGame {
         g.setColor(c);
         g.fillOval(p.x, p.y, RADIUS, RADIUS);
     }
-
-    // private void squareSimulation() {
-    //     startPoints = new Point[4];
-    //     startPoints[0] = new Point(100, 100);
-    //     startPoints[1] = new Point(700, 100);
-    //     startPoints[2] = new Point(700, 600);
-    //     startPoints[3] = new Point(100, 600);
-    // }
 
     // private void pentagonSimulation() {
     //     startPoints = new Point[5];
