@@ -3,8 +3,8 @@ import java.util.Random;
 
 public abstract class Fractal {
 
-    private Point[] startPoints;
-    private Color[] startPointColors;
+    private Point[] startPoints = new Point[1];
+    private Color[] startPointColors = new Color[1];
     private static Random r = new Random();
     
     public abstract Point[] initialiseStartPoints(boolean random);
