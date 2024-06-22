@@ -6,8 +6,6 @@ public class SerpinskiCarpet extends Fractal {
     private Point[] corners;
     private Color[] cornerColors;
 
-    private Point prevPoint;
-
     public SerpinskiCarpet(ChaosGame game, boolean random) {
         super(game, random);
         super.setStartPoints(new Point[4]);
@@ -20,17 +18,18 @@ public class SerpinskiCarpet extends Fractal {
         if(!super.getRandom()) {
             startPoints[0] = new Point(100, 100);
             startPoints[1] = new Point(700, 100);
-            startPoints[2] = new Point(700, 600);
-            startPoints[3] = new Point(100, 600);
+            startPoints[2] = new Point(100, 700);
+            startPoints[3] = new Point(700, 700);
         } else {
             for(int i = 0 ; i < startPoints.length ; i++) {
                 startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT)-50);
             }
         }
         super.setStartPoints(startPoints);
-        createVertices();
-        createVerticesColour();
+        createCorners();
+        createCornersColor();
         super.setPrevPoint(super.getStartPoints()[0]);
+        //System.out.println(super.getPrevPoint());
     }
 
     @Override
@@ -41,54 +40,47 @@ public class SerpinskiCarpet extends Fractal {
         super.getGame().drawPoint(nextPoint, cornerColors[vertex]); //draw the point
     }
 
-    /**
-     * Calculates the next point to draw
-     * 
-     * New Point is determined by P_{i+1} = (2/3)P_i + (1/3)P_t
-     * Where P_i is the current point and P_t is the target point
-     * @param vertex
-     * @return
-     */
     private Point calculateNextPoint(int vertex) {
-        int xt = corners[vertex].x;
-        int yt = corners[vertex].y;
-        int xi = super.getPrevPoint().x;
-        int yi = super.getPrevPoint().x;
-
-        int nextX = (int) ((2.0/3)*xi + (1.0/3)*xt);
-        int nextY = (int) ((2.0/3)*yi + (1.0/3)*yt);
+        Point prevPoint = super.getPrevPoint();
+        Point targetPoint = corners[vertex];
+        int nextX = getThirdOfWayX(prevPoint, targetPoint);
+        int nextY = getThirdOfWayY(prevPoint, targetPoint);
 
         return new Point(nextX, nextY);
     }
 
     public void createCorners() {
-        corners = new Point[32];
-        for(int i = 0 ; i < super.getStartPoints().length ; i++) {
-            corners[i] = super.getStartPoints()[i];
+        Point[] startPoints = super.getStartPoints(); 
+        corners = new Point[16];
+        int xInitial = startPoints[0].x;
+        int yInitial = startPoints[0].y;
+        int xIncrement = getThirdOfWayX(startPoints[0], startPoints[1]) - startPoints[0].x;
+        int yIncrement = getThirdOfWayY(startPoints[0], startPoints[2]) - startPoints[0].y;
+        //System.out.println(xIncrement + " " + yIncrement);
+        int index = 0;
+        for(int i = 0 ; i < 4 ; i++) {
+            for(int j = 0 ; j < 4 ; j++) {
+                corners[index] = new Point(xInitial + i*xIncrement, yInitial + j*yIncrement);
+                index++;
+            }
         }
-        corners[4] = getThirdOfWay(corners[0], corners[1]);
-        corners[5] = getThirdOfWay(corners[1], corners[2]);
-        corners[6] = getThirdOfWay(corners[2], corners[3]);
-        corners[7] = getThirdOfWay(corners[3], corners[0]);
-        addMissingCorners();
     }
 
-    private Point getThirdOfWay(Point p1, Point p2) {
-        int x1 = p1.x; int y1 = p1.y;
-        int x2 = p2.x; int y2 = p2.y;
+    private int getThirdOfWayX(Point p1, Point p2) {
+        int x1 = p1.x; 
+        int x2 = p2.x; 
         int x = (int) (x1 + (1.0/3)*(x2 - x1));
+        return x;
+    }
+    private int getThirdOfWayY(Point p1, Point p2) {
+        int y1 = p1.y;
+        int y2 = p2.y;
         int y = (int) (y1 + (1.0/3)*(y2 - y1));
-        return new Point(x, y);
+        return y;
     }
 
-    private void addMissingCorners() {
-        for(int i = 0 ; i < 8 ; i++) {
-
-        }
-    }
-
-    public void createVerticesColour() {
-        cornerColors = new Color[8];
+    public void createCornersColor() {
+        cornerColors = new Color[corners.length];
         for(int i = 0 ; i < cornerColors.length ; i++) {
             cornerColors[i] = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
         }

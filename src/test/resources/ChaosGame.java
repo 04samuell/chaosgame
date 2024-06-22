@@ -53,8 +53,6 @@ public class ChaosGame {
         g.fillRect(0, 0, ChaosGameGUI.WIDTH, ChaosGameGUI.HEIGHT);
     }
 
-    
-
     public void drawPoint(Point p, Color c) {
         g.setColor(c);
         g.fillOval(p.x, p.y, RADIUS, RADIUS);
