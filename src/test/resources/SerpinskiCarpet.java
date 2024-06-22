@@ -1,8 +1,12 @@
 import java.awt.*;
+import java.util.Arrays;
 
 public class SerpinskiCarpet extends Fractal {
 
-    private Point[] vertices;
+    private Point[] corners;
+    private Color[] cornerColors;
+
+    private Point prevPoint;
 
     public SerpinskiCarpet(ChaosGame game, boolean random) {
         super(game, random);
@@ -21,26 +25,20 @@ public class SerpinskiCarpet extends Fractal {
         } else {
             for(int i = 0 ; i < startPoints.length ; i++) {
                 startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT)-50);
-            
             }
         }
         super.setStartPoints(startPoints);
-        super.setPrevPoint(startPoints[0]);
         createVertices();
+        createVerticesColour();
+        super.setPrevPoint(super.getStartPoints()[0]);
     }
 
     @Override
     public void simulateSinglePoint() {
-        int vertex = r.nextInt(vertices.length);
-
-        Point prevPoint = super.getPrevPoint();
-        Point[] startPoints = super.getStartPoints();
-        Color[] startPointColors = super.getStartPointColors();
-
+        int vertex = r.nextInt(corners.length);
         Point nextPoint = calculateNextPoint(vertex); 
-
         super.setPrevPoint(nextPoint); // set the new prevPoint to be the midpoint
-        super.getGame().drawPoint(prevPoint, startPointColors[vertex]); //draw the point
+        super.getGame().drawPoint(nextPoint, cornerColors[vertex]); //draw the point
     }
 
     /**
@@ -52,32 +50,57 @@ public class SerpinskiCarpet extends Fractal {
      * @return
      */
     private Point calculateNextPoint(int vertex) {
-        int xt = vertices[vertex].x;
-        int yt = vertices[vertex].y;
+        int xt = corners[vertex].x;
+        int yt = corners[vertex].y;
         int xi = super.getPrevPoint().x;
-        int yi = super.getPrevPoint().y;    
+        int yi = super.getPrevPoint().x;
 
-        int nextX = (2/3)*xi + (1/3)*xt;
-        int nextY = (2/3)*yi + (1/3)*yt;
+        int nextX = (int) ((2.0/3)*xi + (1.0/3)*xt);
+        int nextY = (int) ((2.0/3)*yi + (1.0/3)*yt);
 
         return new Point(nextX, nextY);
     }
 
-    public void createVertices() {
-        Point[] vertices = new Point[8];
+    public void createCorners() {
+        corners = new Point[32];
         for(int i = 0 ; i < super.getStartPoints().length ; i++) {
-            vertices[i] = super.getStartPoints()[i];
+            corners[i] = super.getStartPoints()[i];
         }
-        vertices[4] = super.getMidpoint(vertices[0], vertices[1]);
-        vertices[5] = super.getMidpoint(vertices[1], vertices[2]);
-        vertices[6] = super.getMidpoint(vertices[2], vertices[3]);
-        vertices[7] = super.getMidpoint(vertices[3], vertices[0]);
-        setVertices(vertices);
+        corners[4] = getThirdOfWay(corners[0], corners[1]);
+        corners[5] = getThirdOfWay(corners[1], corners[2]);
+        corners[6] = getThirdOfWay(corners[2], corners[3]);
+        corners[7] = getThirdOfWay(corners[3], corners[0]);
+        addMissingCorners();
     }
 
-    public void setVertices(Point[] vertices) {
-        this.vertices = vertices;
+    private Point getThirdOfWay(Point p1, Point p2) {
+        int x1 = p1.x; int y1 = p1.y;
+        int x2 = p2.x; int y2 = p2.y;
+        int x = (int) (x1 + (1.0/3)*(x2 - x1));
+        int y = (int) (y1 + (1.0/3)*(y2 - y1));
+        return new Point(x, y);
     }
+
+    private void addMissingCorners() {
+        for(int i = 0 ; i < 8 ; i++) {
+
+        }
+    }
+
+    public void createVerticesColour() {
+        cornerColors = new Color[8];
+        for(int i = 0 ; i < cornerColors.length ; i++) {
+            cornerColors[i] = new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256));
+        }
+    }
+
+    public void setCorners(Point[] corners) {
+        this.corners = corners;
+    }
+
+    public void setCornerColors(Color[] corneColors) {
+        this.cornerColors = corneColors;
+    } 
 
     
     
