@@ -21,6 +21,10 @@ public class BarnsleysFern extends Fractal {
     private double prevX = 0;
     private double prevY = 0;
 
+    // Scale factor & angle (only applicable if random points are selected)
+    private double scale = 1.0;
+    private double angle = 0; // radians
+
     public BarnsleysFern(ChaosGame game, boolean random) {
         super(game, random);
     }
@@ -30,6 +34,9 @@ public class BarnsleysFern extends Fractal {
         Point[] startPoints = new Point[1];
         if(super.getRandom()) {
             startPoints[0] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT)-50);
+            angle = Math.toRadians(r.nextInt(360));
+            scale = r.nextDouble();
+            if(scale < 0.2) scale = 0.2;
         } else {
             startPoints[0] = new Point(0, 0);
         }
@@ -116,8 +123,16 @@ public class BarnsleysFern extends Fractal {
         double normX = (x - minX) / (maxX - minX);
         double normY = (y - minY) / (maxY - minY);
 
-        int screenX = (int) (normX * (WIDTH - 1));
-        int screenY = (int) ((1 - normY) * (HEIGHT - 1)); 
+        normX = (normX - 0.5) * scale + 0.5;
+        normY = (normY - 0.5) * scale + 0.5;
+
+        double rotatedX = normX * Math.cos(angle) - normY * Math.sin(angle);
+        double rotatedY = normX * Math.sin(angle) + normY * Math.cos(angle);
+        rotatedX = (rotatedX + 1) / 2;
+        rotatedY = (rotatedY + 1) / 2;
+
+        int screenX = (int) (rotatedX * (WIDTH - 1));
+        int screenY = (int) ((1 - rotatedY) * (HEIGHT - 1)); 
 
         return new Point(screenX, screenY);
     }
