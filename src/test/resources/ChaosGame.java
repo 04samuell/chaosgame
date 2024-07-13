@@ -23,12 +23,10 @@ public class ChaosGame {
         g.setColor(Color.WHITE);
     }
 
-    public void beginSimulation(int numPoints, boolean random) {
-        if(numPoints == 3) {
+    public void beginSimulation(String fractal, boolean random) {
+        if(fractal.equals("Serpinskis Triangle")) {
             currSimulation = new SerpinskiTriangle(this, random);
-        } else if(numPoints == 4) {
-            currSimulation = new SerpinskiCarpet(this, random);
-        } else if(numPoints == 5) {
+        } else if(fractal.equals("Barnsleys Fern")) {
             currSimulation = new BarnsleysFern(this, random);
         }
 
@@ -38,7 +36,11 @@ public class ChaosGame {
     }
 
     public void getNextAnimationFrame() {
-        for(int i = 0 ; i < 100 ; i++) { //100
+        int iterations = 100;
+        if(currSimulation.getClass() == BarnsleysFern.class) {
+            iterations = 1000;
+        }
+        for(int i = 0 ; i < iterations ; i++) {
             currSimulation.simulateSinglePoint();
         }
     }

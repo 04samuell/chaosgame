@@ -8,7 +8,7 @@ public class ChaosGameGUI {
     private JPanel panel;
     private JFrame frame;
     private JCheckBoxMenuItem randomPointsBox;
-    private JComboBox<Integer> numPointsBox;
+    private JComboBox<String> fractalTypeBox;
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
@@ -44,18 +44,17 @@ public class ChaosGameGUI {
         JMenuItem clearButton = new JMenuItem("Clear");
         clearButton.addActionListener(new ClearButtonListener());
 
-        numPointsBox = new JComboBox<>();
-        numPointsBox.addItem(3);
-        numPointsBox.addItem(4);
-        numPointsBox.addItem(5);
-        JPanel numPointsPanel = new JPanel();
-        numPointsPanel.add(new JLabel("Points"));
-        numPointsPanel.add(numPointsBox);
+        fractalTypeBox = new JComboBox<>();
+        fractalTypeBox.addItem("Serpinskis Triangle");
+        fractalTypeBox.addItem("Barnsleys Fern");
+        JPanel fractalTypePanel = new JPanel();
+        fractalTypePanel.add(new JLabel("Fractal"));
+        fractalTypePanel.add(fractalTypeBox);
         
         menuBar.add(simulateButton);
         menuBar.add(randomPointsBox);
         menuBar.add(clearButton);
-        menuBar.add(numPointsPanel);
+        menuBar.add(fractalTypePanel);
         frame.setJMenuBar(menuBar);
     }
 
@@ -66,8 +65,8 @@ public class ChaosGameGUI {
     private class SimulateListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             boolean randomSimulation = randomPointsBox.isSelected();
-            int numPoints = (int) numPointsBox.getSelectedItem();
-            game.beginSimulation(numPoints, randomSimulation);
+            String fractal = (String) fractalTypeBox.getSelectedItem();
+            game.beginSimulation(fractal, randomSimulation);
         }
     }
 
