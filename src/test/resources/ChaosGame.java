@@ -29,16 +29,16 @@ public class ChaosGame {
         } else if(numPoints == 4) {
             currSimulation = new SerpinskiCarpet(this, random);
         } else if(numPoints == 5) {
-            //currSimulation = new SerpinskiPentagon(random);
+            currSimulation = new BarnsleysFern(this, random);
         }
 
-        currSimulation.initialiseStartPoints(); //random
+        currSimulation.initialiseStartPoints();
         currSimulation.initialiseStartPointColours();
         timer.start();
     }
 
     public void getNextAnimationFrame() {
-        for(int i = 0 ; i < 100 ; i++) {
+        for(int i = 0 ; i < 100 ; i++) { //100
             currSimulation.simulateSinglePoint();
         }
     }
