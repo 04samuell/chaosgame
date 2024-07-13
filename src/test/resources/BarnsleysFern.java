@@ -128,8 +128,12 @@ public class BarnsleysFern extends Fractal {
 
         double rotatedX = normX * Math.cos(angle) - normY * Math.sin(angle);
         double rotatedY = normX * Math.sin(angle) + normY * Math.cos(angle);
-        rotatedX = (rotatedX + 1) / 2;
-        rotatedY = (rotatedY + 1) / 2;
+            
+        if(angle != 0) {
+            rotatedX = (rotatedX + 1) / 2;
+            rotatedY = (rotatedY + 1) / 2;
+        }
+
 
         int screenX = (int) (rotatedX * (WIDTH - 1));
         int screenY = (int) ((1 - rotatedY) * (HEIGHT - 1)); 
