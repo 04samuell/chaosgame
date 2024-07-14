@@ -26,6 +26,8 @@ public class ChaosGame {
     public void beginSimulation(String fractal, boolean random) {
         if(fractal.equals("Serpinskis Triangle")) {
             currSimulation = new SerpinskiTriangle(this, random);
+        } else if(fractal.equals("Serpinskis Pentagon")) {
+            currSimulation = new SerpinskisPentagon(this, random);
         } else if(fractal.equals("Barnsleys Fern")) {
             currSimulation = new BarnsleysFern(this, random);
         }
@@ -36,7 +38,7 @@ public class ChaosGame {
     }
 
     public void getNextAnimationFrame() {
-        int iterations = 100;
+        int iterations = 1000;
         if(currSimulation.getClass() == BarnsleysFern.class) {
             iterations = 1000;
         }
@@ -59,16 +61,5 @@ public class ChaosGame {
         g.setColor(c);
         g.fillOval(p.x, p.y, RADIUS, RADIUS);
     }
-
-    // private void pentagonSimulation() {
-    //     startPoints = new Point[5];
-    //     startPoints[0] = new Point(400, 50);
-    //     startPoints[1] = new Point(100, 250);
-    //     startPoints[2] = new Point(250, 600);
-    //     startPoints[3] = new Point(550, 600);
-    //     startPoints[4] = new Point(700, 250);
-    // }
-
-
 
 }

@@ -46,6 +46,7 @@ public class ChaosGameGUI {
 
         fractalTypeBox = new JComboBox<>();
         fractalTypeBox.addItem("Serpinskis Triangle");
+        fractalTypeBox.addItem("Serpinskis Pentagon");
         fractalTypeBox.addItem("Barnsleys Fern");
         JPanel fractalTypePanel = new JPanel();
         fractalTypePanel.add(new JLabel("Fractal"));
