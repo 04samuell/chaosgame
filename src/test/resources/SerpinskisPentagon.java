@@ -3,7 +3,6 @@ import java.awt.*;
 public class SerpinskisPentagon extends Fractal {
 
     private int prevVertice = 0;
-    private Point prevPoint;
 
     public SerpinskisPentagon(ChaosGame game, boolean random) {
         super(game, random);
@@ -23,9 +22,9 @@ public class SerpinskisPentagon extends Fractal {
                 startPoints[i] = new Point(r.nextInt(ChaosGameGUI.WIDTH), r.nextInt(ChaosGameGUI.HEIGHT));
             }
         }
-        prevPoint = startPoints[0];
+
         super.setStartPoints(startPoints);
-        
+        super.setPrevPoint(startPoints[1]);
     }
 
     @Override
@@ -33,11 +32,12 @@ public class SerpinskisPentagon extends Fractal {
         Point nextPoint = new Point();
         int nextVertice = r.nextInt(5);
         if(nextVertice != prevVertice) {
-            nextPoint = super.getMidpoint(super.getStartPoints()[nextVertice], prevPoint);
+            nextPoint = super.getMidpoint(super.getStartPoints()[nextVertice], super.getPrevPoint());
             super.getGame().drawPoint(nextPoint, super.getStartPointColors()[nextVertice]);
+            prevVertice = nextVertice;
+            super.setPrevPoint(nextPoint); 
         }
-        prevVertice = nextVertice;
-        prevPoint = nextPoint;
+
     }
 
     
