@@ -67,7 +67,7 @@ public class BarnsleysFern extends Fractal {
      */
     private Point simulateF1() {
         double x = 0;
-        double y = (int) 0.16 * this.prevY;
+        double y = 0.16 * this.prevY;
 
         prevX = x;
         prevY = y;
