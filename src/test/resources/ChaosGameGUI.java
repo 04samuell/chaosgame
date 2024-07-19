@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import javax.imageio.ImageIO;
 
 public class ChaosGameGUI {
     
@@ -24,6 +25,7 @@ public class ChaosGameGUI {
         frame.setSize(WIDTH,HEIGHT);
         frame.setResizable(false);
         frame.setLayout(new FlowLayout(FlowLayout.CENTER));
+        loadIconImage();
         
         panel = new JPanel();
         panel.setPreferredSize(new Dimension(WIDTH,HEIGHT));;
@@ -61,6 +63,16 @@ public class ChaosGameGUI {
 
     public Graphics getGraphics() {
         return panel.getGraphics();
+    }
+
+    private void loadIconImage() {
+        String filepath = "src/test/resources/bin/icon.png";
+        try {
+            Image icon = ImageIO.read(ChaosGameGUI.class.getClassLoader().getResourceAsStream(filepath));
+            frame.setIconImage(icon);
+        } catch (Exception e) {
+            System.out.println("Error loading icon image");
+        }
     }
 
     private class SimulateListener implements ActionListener {
