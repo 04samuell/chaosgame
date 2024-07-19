@@ -13,6 +13,8 @@ public class ChaosGameGUI {
 
     public static final int WIDTH = 800;
     public static final int HEIGHT = 800;
+
+    private static final boolean DEBUGGING = true;
     
     public ChaosGameGUI(ChaosGame game) {
         this.game = game;
@@ -66,7 +68,12 @@ public class ChaosGameGUI {
     }
 
     private void loadIconImage() {
-        String filepath = "src/test/resources/bin/icon.png";
+        String filepath;
+        if(DEBUGGING) {
+            filepath = "test/resources/icon.png";
+        } else {
+            filepath = "icon.png";
+        }
         try {
             Image icon = ImageIO.read(ChaosGameGUI.class.getClassLoader().getResourceAsStream(filepath));
             frame.setIconImage(icon);
